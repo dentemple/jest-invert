@@ -3,7 +3,7 @@
 var original = global.expect
 
 function configureInvert(config) {
-  if (config && !config.invert) return original
+  if (config && !config.isActive) return original
 
   return function invertExpect(actual, ...rest) {
     // Flip True/False if boolean

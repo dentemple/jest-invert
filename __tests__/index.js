@@ -1,6 +1,6 @@
 'use strict'
 
-const invert = require('../src')
+const invert = require('../index')
 
 describe('invert', function() {
   describe('when not active', function() {
