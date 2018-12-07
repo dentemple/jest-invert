@@ -1,5 +1,7 @@
 # jest-invert
 
+[![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)[![Build Status](https://travis-ci.com/dentemple/jest-invert.svg?branch=master)](https://travis-ci.com/dentemple/jest-invert)[![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 Quickly check the integrity of your unit tests by inverting `expect`.
 
 - `true` will become `false`
@@ -24,7 +26,7 @@ Invoke and replace Jest's original expect function.
 
 ```js
 // setupTests.js
-const invert = require('./jest-invert-it')
+const invert = require('./jest-invert')
 
 global.expect = invert()
 
