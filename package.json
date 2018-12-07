@@ -4,8 +4,13 @@
   "description": "Flip the results of jest's 'expect' function to quickly check the integrity of your unit tests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest -i",
+    "test:watch": "jest -i --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "Denny Temple <dev@dentemple.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
 }
