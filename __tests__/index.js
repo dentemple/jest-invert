@@ -59,6 +59,10 @@ describe('primitives', function() {
       expect('foobar').not.toMatch(/foo/)
       expect('foobar').toMatch(/boo/)
     })
+
+    it("shouldn't affect arrays", function() {
+      expect([1, 2, 3]).toEqual([1, 2, 3])
+    })
   })
 })
 

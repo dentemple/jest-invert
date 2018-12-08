@@ -1,15 +1,17 @@
 # jest-invert
 
-[![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)[![Build Status](https://travis-ci.com/dentemple/jest-invert.svg?branch=master)](https://travis-ci.com/dentemple/jest-invert)[![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![Build Status](https://travis-ci.com/dentemple/jest-invert.svg?branch=master)](https://travis-ci.com/dentemple/jest-invert) [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)
 
 Check the integrity of your unit tests by inverting the return value of [`expect`](https://jestjs.io/docs/en/expect).
 
-- `expect(true)` will evaluate to `false`
-- `expect(null)` will evaluate to `undefined`
-- `expect(2 + 2)` will evaluate to `-4`
-- `expect("foobar")` will evalute `"raboof"`
+- `expect(true)` will evaluate to `false`, and vice versa
+- `expect(null)` will evaluate to `undefined`, and vice versa
+- All numeric return values will be multiplied by `-1`
+- All string return values will be reversed
 
-Quick reference:
+No dependencies are included.
+
+## Quick reference
 
 ```js
 // install
@@ -20,17 +22,17 @@ npm install --save-dev jest-invert
 const invert = require('./jest-invert')
 global.expect = invert()
 
-// deactivate by utilizing the `isActive` flag
-global.expect = invert({isActive: flag})
+// or utilize the `isActive` flag to active/deactive at will
+global.expect = invert({isActive: true})
 
 // invert arrays and objects as well, not just primitives
 global.expect = invert({all: true})
 
-// can be scoped by utilizing within the setup/teardown phases
+// jest-invert can be scoped using the setup/teardown phases
 describe('MY_UNIT_TEST', () => {
   beforeEach(() => {
-      global.expect = invert()
-    })
+    global.expect = invert()
+  })
 
   afterEach(() => {
     global.expect = invert({ isActive: false })
@@ -46,9 +48,9 @@ expect(2 + 2).toEqual(expect.any(Number)) // will currently error
 expect(2 + 2).toEqual(jestExpect.any(Number)) // will be fine
 ```
 
-Requires `jest` to be in scope.
+Requires the Jest library to be in scope.
 
-[Read more about unit testing with `jest`.](https://jestjs.io/)
+[Read more about unit testing with Jest.](https://jestjs.io/)
 
 ## How to use
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.3
+
+- Minor updates to docs
+
 ## v0.1.2
 
 - Added functionality to invert objects as well
