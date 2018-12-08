@@ -1,6 +1,6 @@
 {
   "name": "jest-invert",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Invert the results of jest's 'expect' function to quickly check the integrity of your unit tests",
   "main": "index.js",
   "author": "Denny Temple <dev@dentemple.com>",
@@ -14,9 +14,10 @@
     "url": "https://github.com/dentemple/jest-invert/issues"
   },
   "keywords": [
-    "test",
     "jest",
-    "dev"
+    "test",
+    "unit testing",
+    "tdd"
   ],
   "scripts": {
     "test": "jest -i",

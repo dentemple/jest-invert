@@ -1,20 +1,24 @@
 'use strict'
 
+global.jestExpect = global.expect
 var original = global.expect
 
 function configureInvert(config) {
-  if (config && !config.isActive) return original
+  if (config && config.isActive === false) return original
+
+  var includeAll = config && config.all === true
 
   return function invertExpect(actual, ...rest) {
-    // Flip True/False if boolean
+    if (actual === null) return original(undefined, ...rest)
+
+    if (actual === undefined) return original(null, ...rest)
+
     if (typeof actual === 'boolean') return original(!actual, ...rest)
 
-    // Multiply by -1 if number
     if (typeof actual === 'number') return original(actual * -1, ...rest)
 
-    // Reverse if string
-    if (typeof actual === 'string')
-      return original(
+    if (typeof actual === 'string') {
+      var result = original(
         actual
           .split('')
           .reverse()
@@ -22,8 +26,21 @@ function configureInvert(config) {
         ...rest
       )
 
-    // Reverse if array
-    if (Array.isArray(actual)) return original(actual.reverse(), ...rest)
+      return result
+    }
+
+    if (includeAll) {
+      if (Array.isArray(actual)) return original(actual.reverse(), ...rest)
+
+      if (typeof actual === 'object') {
+        var result = {}
+        for (var prop in actual) {
+          result[actual[prop]] = prop
+        }
+
+        return original(result, ...rest)
+      }
+    }
 
     return original(actual, ...rest)
   }
