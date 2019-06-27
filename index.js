@@ -1,49 +1,46 @@
 'use strict'
 
-global.jestExpect = global.expect
-var original = global.expect
+const utils = require('./src/_utils')
 
-function configureInvert(config) {
-  if (config && config.isActive === false) return original
-
-  var includeAll = config && config.all === true
-
-  return function invertExpect(actual, ...rest) {
-    if (actual === null) return original(undefined, ...rest)
-
-    if (actual === undefined) return original(null, ...rest)
-
-    if (typeof actual === 'boolean') return original(!actual, ...rest)
-
-    if (typeof actual === 'number') return original(actual * -1, ...rest)
-
-    if (typeof actual === 'string') {
-      var result = original(
-        actual
-          .split('')
-          .reverse()
-          .join(''),
-        ...rest
-      )
-
-      return result
-    }
-
-    if (includeAll) {
-      if (Array.isArray(actual)) return original(actual.reverse(), ...rest)
-
-      if (typeof actual === 'object') {
-        var result = {}
-        for (var prop in actual) {
-          result[actual[prop]] = prop
-        }
-
-        return original(result, ...rest)
-      }
-    }
-
-    return original(actual, ...rest)
+function configureInvert(config = {}) {
+  if (config.run == false) {
+    return global.expect || config.expect
   }
+
+  const jestExpect = config.expect || global.expect
+
+  if (!jestExpect) {
+    const message =
+      '"jest-invert" requires Jest to be in scope. ' +
+      'This library cannot work if it cannot find the jest.expect method.\n\n' +
+      'Please install and configure Jest if you have not already done so. '
+
+    return new Error(message)
+  }
+
+  const possibleEvaluators = {
+    bigint: utils.invertNum,
+    boolean: utils.invertBool,
+    function: utils.doNothing,
+    number: utils.invertNum,
+    object: utils.handleObj,
+    string: utils.invertStr,
+    symbol: utils.doNothing,
+    undefined: utils.invertBool
+  }
+
+  function invert(value, ...rest) {
+    const evaluate = possibleEvaluators[typeof value]
+    const result = evaluate(value)
+
+    return jestExpect(result, ...rest)
+  }
+
+  // Jest's original expect function has additional method calls attached to it;
+  //    therefore, we must retain references to them on the new function
+  Object.setPrototypeOf(invert, jestExpect)
+
+  return invert
 }
 
 module.exports = configureInvert

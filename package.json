@@ -1,9 +1,9 @@
 {
   "name": "jest-invert",
-  "version": "0.1.3",
-  "description": "Invert the results of jest's 'expect' function to quickly check the integrity of your unit tests",
+  "version": "0.2.0",
+  "description": "Determine the integrity of your Jest unit tests by inverting the return value of jest.expect()",
   "main": "index.js",
-  "author": "Denny Temple <dev@dentemple.com>",
+  "author": "Denny S. Temple <dev@dentemple.com>",
   "license": "MIT",
   "homepage": "https://github.com/dentemple/jest-invert#readme",
   "repository": {
@@ -16,15 +16,18 @@
   "keywords": [
     "jest",
     "test",
-    "unit testing",
-    "tdd"
+    "unit test",
+    "tdd",
+    "invert"
   ],
   "scripts": {
     "test": "jest -i",
-    "test:watch": "jest -i --watch",
-    "test:coverage": "jest --coverage"
+    "test:watch": "jest -i --watch"
+  },
+  "peerDependencies": {
+    "jest": ">= 22.0.0"
   },
   "devDependencies": {
-    "jest": "^23.6.0"
+    "jest": "^24.8.0"
   }
 }
