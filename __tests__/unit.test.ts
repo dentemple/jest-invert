@@ -1,11 +1,9 @@
-'use strict'
-
-var invert = require('../index')
+import invert from '../src'
 
 describe('Unit tests', function() {
-  var expect
+  var expect: any
   beforeAll(() => {
-    expect = invert()
+    expect = invert({})
   })
 
   afterAll(() => {
@@ -43,12 +41,7 @@ describe('Unit tests', function() {
   })
 
   it('handles objects', () => {
-    const testObject = { a: 1, b: 2, c: 3 }
-    let swapped = {}
-    Object.keys(testObject).forEach(key => {
-      swapped[JSON.stringify(testObject[key])] = key
-    })
-    expect(testObject).not.toEqual(testObject)
-    expect(testObject).toEqual(swapped)
+    expect({ a: 1, b: 2 }).not.toEqual({ a: 1, b: 2 })
+    expect({ a: 1, b: 2 }).toEqual({ '1': 'a', '2': 'b' })
   })
 })

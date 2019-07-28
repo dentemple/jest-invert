@@ -8,7 +8,7 @@ Tests such as `expect(2 + 2).toEqual(4)` will now intentionally fail.
 
 [Read more about Jest](https://jestjs.io/)
 
-No additional dependencies installed. `jest` is the sole "peer" requirement.
+A micro-library; no additional dependencies are installed. `_Jest_ is the sole "peer" requirement.
 
 ## Quick Reference
 
@@ -42,6 +42,13 @@ describe('foo', function() {
 
   /* ... */
 })
+
+/* example tests that will now intentionally fail */
+expect(true).toEqual(true) // false === true
+expect(42).toEqual(42) // -42 === 42
+expect('mystring').toEqual('mystring') // "gnirtsym" === "mystring"
+expect([1, 2, 3]).toEqual([1, 2, 3]) // [3, 2, 1] === [1, 2, 3]
+expect({ a: 1, b: 2 }).toEqual({ a: 1, b: 2 }) // {"1":"a", "2":"b"} === { a: 1, b: 2 }
 ```
 
 ## But why?
@@ -76,9 +83,12 @@ yarn add --dev jest-invert
 const invert = require('./jest-invert')
 
 global.expect = invert()
+
+/* For Typescript, an object is required as the first and only argument */
+global.expect = invert({})
 ```
 
-Alternatively, pass in a configuration object for more explicit activation and deactivation.
+Alternatively, pass in a configuration object for more explicit activation and deactivation. (Recommended for Typescript users).
 
 ```js
 global.expect = invert({ run: true })
@@ -127,9 +137,8 @@ _Note on objects_: The key/value swap uses `JSON.stringify()` to avoid multiple 
 const invert = require('jest-invert')
 expect = invert()
 
-/*
-  All of the following statements will now intentionally fail
-*/
+/* All of the following statements will now intentionally fail */
+
 expect(true).toEqual(true) // false === true
 expect(undefined).toEqual(undefined) // true === undefined
 expect(null).toEqual(null) // true === null
@@ -146,9 +155,13 @@ expect({ a: 1, b: 2 }).toEqual({ a: 1, b: 2 }) // {"1":"a", "2":"b"} === { a: 1,
 
 ### `require('jest-invert')`
 
+> `({ expect, run = true }: config) => any`
+
 Returns a higher-order function. Accepts a configuration object, and returns the main `invert` function.
 
 Use this returned function to replace `jest.expect`.
+
+For Typescript users, an object is required as the first and only argument. This can be an empty object.
 
 Usage:
 
@@ -157,12 +170,18 @@ const invert = require('jest-invert')
 
 console.log(global.expect) // function definition from jest
 
+// Javascript
 global.expect = invert()
+
+// Typescript
+global.expect = invert({})
 
 console.log(global.expect) // function definition from jest-invert
 ```
 
 ### `config.run`
+
+> `run?: boolean | null`
 
 Boolean.
 
@@ -178,11 +197,11 @@ Usage:
 describe('my tests', function() {
   var expect
   beforeAll(() => {
-    expect = invert({ run: true }) // <---
+    expect = invert({ run: true })
   })
 
   afterAll(() => {
-    expect = invert({ run: false }) // <---
+    expect = invert({ run: false })
   })
 
   it('my unit test', function() {
@@ -194,6 +213,8 @@ describe('my tests', function() {
 ```
 
 ### `config.expect`
+
+> `expect?: any`
 
 Function. _For future compatibility only._
 

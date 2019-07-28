@@ -1,12 +1,10 @@
-'use strict'
-
-var invert = require('../index')
+import invert from '../src'
 
 describe('Integration tests', function() {
   describe('Retains functionality from the core Jest API', function() {
-    var expect
+    var expect: any
     beforeAll(function() {
-      expect = invert()
+      expect = invert({})
       expect.extend({ is4 })
     })
 
@@ -14,7 +12,7 @@ describe('Integration tests', function() {
       expect = invert({ run: false })
     })
 
-    function is4(received) {
+    function is4(received: any) {
       return received === 4
         ? {
             message: function() {

@@ -1,4 +1,4 @@
-require('../index')
+import '../src'
 
 describe('Regression tests', function() {
   describe('Causes no side-effects when in scope but not invoked', function() {

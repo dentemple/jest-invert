@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.0
+
+- Configured and refactored to Typescript
+- Configured Rollup
+- Now exporting library to multiple formats
+- Updated general project settings
+- Configured Prettier
+- Updated relevant documentation
+- Updated misc. dev packages
+
 ## v0.2.0
 
 - Solved major integration bug (github.com/dentemple/jest-invert/issues/1)
@@ -8,7 +18,7 @@
 - Refactored main
 - Refactored main tests
 - Added integration tests
-- Converted to ES6
+- Partial conversion to ES6 (in anticipation of a full conversion to Typescript)
 - Arrays and Objects are now part of the main API; removed the now defunct `.all()` API option
 - Updated README
 - Set `jest` as a peer dependency
