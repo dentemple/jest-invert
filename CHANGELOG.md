@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.1
+
+- Update libraries
+- Update Code of Conduct to better reflect the original author's intent
+- Minor updates to README
+
 ## v0.3.0
 
 - Configured and refactored to Typescript

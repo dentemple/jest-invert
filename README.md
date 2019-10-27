@@ -2,15 +2,25 @@
 
 [![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![Build Status](https://travis-ci.com/dentemple/jest-invert.svg?branch=master)](https://travis-ci.com/dentemple/jest-invert) [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)
 
-Determine the integrity of your Jest unit tests by inverting the return value of [`jest.expect()`](https://jestjs.io/docs/en/expect).
+A micro-library for [Jest](https://jestjs.io/) that quickly checks the integrity of your unit tests by inverting your test returns. Specifically, it inverts the return values of [`jest.expect()`](https://jestjs.io/docs/en/expect).
 
-Tests such as `expect(2 + 2).toEqual(4)` will now intentionally fail.
+Unit tests such as `expect(2 + 2)` to return `-4`, causing the expression `expect(2 + 2).toEqual(4)` to return false, intentionally.
 
-[Read more about Jest](https://jestjs.io/)
+## But why?
 
-A micro-library; no additional dependencies are installed. `_Jest_ is the sole "peer" requirement.
+Because a great unit test is not a good unit test until you see it fail (at least once).
 
-## Quick Reference
+However, the more tests there are in an application, the more tedious it can be to break each of them in an appreciable way.
+
+This library simply allows you to fail a large group of tests at once. Invoke `global.expect = invert()` in the setup file--or inside a `describe` block)--and let it do its thing.
+
+_Inverting these return values_, as opposed to returning random noise, also provides us a predictable failure mode. When an inverted test returns `false` when the original test returned `true`, then we can be reasonably certain that our original expectations are still valid.
+
+If, however, the inverted test returns `"eurt"` (which is the inverse of string "true", not boolean `true`), then we can be reasonably certain that there's an error in the original logic.
+
+[Read more about Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
+
+## Library Quick Reference
 
 ```js
 /* install */
@@ -50,20 +60,6 @@ expect('mystring').toEqual('mystring') // "gnirtsym" === "mystring"
 expect([1, 2, 3]).toEqual([1, 2, 3]) // [3, 2, 1] === [1, 2, 3]
 expect({ a: 1, b: 2 }).toEqual({ a: 1, b: 2 }) // {"1":"a", "2":"b"} === { a: 1, b: 2 }
 ```
-
-## But why?
-
-Because a good unit test is not a good unit test until you see it fail (at least once).
-
-As the number of tests in an application increases, the more tedious it can be to "break" each of them in an appreciable fashion.
-
-This library allows you to fail a large group of tests at once. Simply invoke `global.expect = invert()` in the Jest setup file (or inside a `describe` block), and see what happens.
-
-By inverting the values of _expect_, instead of adding random noise, we also receive a predicatable failure mode instead of an arbitrary one. For example, if you run _jest-invert_ on a test that's supposed to evaluate to true (i.e., `expect(evaluateToTrue())`), you can expect to receive `false` in the failure message.
-
-If, however, you receive `"eurt"` instead (the inverse of string "true", not boolean `true`), then you know that there's an unexpected error in the code.
-
-[Read more about Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
 
 ## How it works
 
@@ -241,7 +237,7 @@ View the recent changes [here](CHANGELOG.md).
 
 ## Code of Conduct
 
-Read the Code of Conduct [here](CODE-OF-CONDUCT.md).
+Read the Code of Conduct [here](CODE-OF-CONDUCT.md). Contributions that violate these principles may be removed.
 
 ## License
 
