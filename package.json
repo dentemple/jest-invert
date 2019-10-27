@@ -1,6 +1,6 @@
 {
   "name": "jest-invert",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Determine the integrity of your Jest unit tests by inverting the return value of jest.expect()",
   "author": "Denny S. Temple <dev@dentemple.com>",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "clean": "rimraf .cache && rimraf dist",
     "test": "jest -i",
     "test:watch": "jest -i --watch",
-    "update": "ncu --dep dev,prod -u && install",
+    "update": "ncu --dep dev,prod -u && npm install",
     "update:check": "ncu --dep dev,prod",
     "prepublish": "npm run clean && npm run build"
   },
@@ -26,21 +26,21 @@
     "jest": ">=24.8.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.15",
-    "husky": "^3.0.1",
-    "jest": "^24.8.0",
-    "lint-staged": "^9.2.1",
-    "npm-check-updates": "^3.1.20",
+    "@types/jest": "^24.0.20",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.4.2",
+    "npm-check-updates": "^3.1.25",
     "prettier": "^1.18.2",
-    "rimraf": "^2.6.3",
-    "rollup": "^1.17.0",
-    "rollup-plugin-analyzer": "^3.1.2",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.26.0",
+    "rollup-plugin-analyzer": "^3.2.1",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-typescript2": "^0.22.1",
-    "ts-jest": "^24.0.2",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-typescript2": "^0.24.3",
+    "ts-jest": "^24.1.0",
     "tslib": "^1.10.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.4"
   },
   "homepage": "https://github.com/dentemple/jest-invert#readme",
   "repository": {
