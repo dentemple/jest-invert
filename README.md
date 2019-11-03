@@ -80,7 +80,7 @@ const invert = require('./jest-invert')
 
 global.expect = invert()
 
-/* For Typescript, an object is required as the first and only argument */
+/* For Typescript projects, prefer passing in an empty object for the default settings */
 global.expect = invert({})
 ```
 
