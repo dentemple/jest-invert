@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.2
+
+- Update `invert`'s function definition to allow an argument of undefined
+  - Note: It seems not to be intuitive to pass in an empty object for non-typescript projects, and, unfortunately, I've haven't found a solution for allowing undefineds for JS but not for TS
+- Minor update to docs, including to the Code of Conduct
+
 ## v0.3.1
 
 - Update libraries

@@ -4,7 +4,7 @@ describe('Integration tests', function() {
   describe('Retains functionality from the core Jest API', function() {
     var expect: any
     beforeAll(function() {
-      expect = invert({})
+      expect = invert()
       expect.extend({ is4 })
     })
 

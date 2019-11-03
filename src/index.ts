@@ -7,7 +7,10 @@ import {
   handleObject
 } from './_utils'
 
-export default function configureInvert({ expect, run = true }: Config): any {
+export default function configureInvert({
+  expect,
+  run = true
+}: Config = {}): any {
   if (run == false) {
     return global.expect
   }

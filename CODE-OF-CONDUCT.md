@@ -1,8 +1,6 @@
 # Code of Conduct
 
-These are the Four Noble Truths: It is the nature of existence to suffer. Cravings, desires, and attachments contribute to our suffering. It is possible to eliminate suffering by eliminating cravings, desires, and attachments. We can achieve liberation by following the path laid out to us by the eight practices....
-
-1. Right View: To seek an understanding of things without bias or impurity, and to understand that our actions and beliefs have consequences even after death
+1. Right View: To seek an understanding of things without bias or impurity, and to understand that our actions and beliefs have consequences
 2. Right Resolve: To foster an environment of non-cruelty, non-sensuality, and non-ill-will
 3. Right Speech: To avoid lies, gossip, idle babble, and rude speech
 4. Right Conduct: To avoid causing harm to others, and to avoid taking that which is not given
