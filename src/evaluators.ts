@@ -1,13 +1,14 @@
+import { AnyJavascriptObject, InvertedObject, SwappedObject } from './types'
+
 export const doNothing = (actual: any): any => actual
 
 export const invertArray = (actual: Array<any>): Array<any> => actual.reverse()
 
 export const invertBoolean = (actual: boolean): boolean => !actual
 
-export const invertEmpty = (actual: undefined | null): boolean => !actual
+export const invertEmpty = (actual: undefined | null): true => !actual
 
-export const invertNumber = (actual: number | BigInt): number | BigInt =>
-  -actual
+export const invertNumber = (actual: number): number => -actual
 
 export const invertObject = (actual: Object[]): SwappedObject => {
   let swapped: SwappedObject = {}
@@ -28,7 +29,10 @@ export const isArray = (actual: any): actual is Array<any> =>
 
 export const isNull = (actual: any): actual is null => actual === null
 
-export const handleObject = (actual: AnyJavascriptObject): InvertedObject => {
+export function handleObject(actual: null): boolean
+export function handleObject(actual: Array<any>): Array<any>
+export function handleObject(actual: Object[]): SwappedObject
+export function handleObject(actual: AnyJavascriptObject): InvertedObject {
   if (isNull(actual)) {
     return invertEmpty(actual)
   }
@@ -40,13 +44,15 @@ export const handleObject = (actual: AnyJavascriptObject): InvertedObject => {
   return invertObject(actual)
 }
 
-// --------------------
-// types
-// --------------------
-
-type InvertedObject = SwappedObject | Array<any> | boolean
-type AnyJavascriptObject = Object[] | Array<any> | null
-
-interface SwappedObject {
-  [key: string]: string
+const evaluators = {
+  bigint: invertNumber,
+  boolean: invertBoolean,
+  function: doNothing,
+  number: invertNumber,
+  object: handleObject,
+  string: invertString,
+  symbol: doNothing,
+  undefined: invertEmpty
 }
+
+export default evaluators
