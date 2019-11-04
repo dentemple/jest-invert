@@ -1,9 +1,10 @@
 {
   "name": "jest-invert",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Determine the integrity of your Jest unit tests by inverting the return value of jest.expect()",
   "author": "Denny S. Temple <dev@dentemple.com>",
   "license": "MIT",
+  "---": "---",
   "main": "dist/jest-invert.cjs.js",
   "browser": "dist/jest-invert.umd.js",
   "unpkg": "dist/jest-invert.umd.min.js",
@@ -12,18 +13,19 @@
   "files": [
     "dist"
   ],
+  "----": "----",
   "scripts": {
-    "build": "rollup --c rollup.config.js --compact",
+    "build": "npm run clean && rollup --c rollup.config.js --compact",
     "clean": "rimraf .cache && rimraf dist",
     "test": "jest -i",
     "test:watch": "jest -i --watch",
     "update": "ncu --dep dev,prod -u && npm install",
     "update:check": "ncu --dep dev,prod",
-    "prepublish": "npm run clean && npm run build"
+    "prepublish": "npm run build"
   },
   "dependencies": {},
   "peerDependencies": {
-    "jest": ">=24.8.0"
+    "jest": ">=24.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.20",

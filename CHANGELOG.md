@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.3
+
+- Improve typings
+
 ## v0.3.2
 
 - Update `invert`'s function definition to allow an argument of undefined
