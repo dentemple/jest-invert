@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.4
+
+- Update packages
+
 ## v0.3.3
 
 - Improve typings
