@@ -1,5 +1,5 @@
 import { Config, Expect, Invert } from './types'
-import evaluators from './evaluators'
+import evaluators from './evaluators/index'
 
 declare global {
   namespace NodeJS {
@@ -19,7 +19,7 @@ export default function configureInvert({
 
   // The specific type mappings here are handled by the overloaded function type, "Invert"
   function invert(actual: any, ...rest: Array<any>): any {
-    // A map is used here instead of an if statement so as to reduce
+    // A map is used here instead of if statements so as to reduce
     //    the number of unnecessary code paths being checked.
     const evaluate: Function = evaluators[typeof actual]
     const result = evaluate(actual)

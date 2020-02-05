@@ -1,4 +1,5 @@
 import invert from '../src'
+import { invertString } from '../src/evaluators/conversions'
 
 describe('Unit tests', function() {
   var expect: any
@@ -43,5 +44,25 @@ describe('Unit tests', function() {
   it('handles objects', () => {
     expect({ a: 1, b: 2 }).not.toEqual({ a: 1, b: 2 })
     expect({ a: 1, b: 2 }).toEqual({ '1': 'a', '2': 'b' })
+  })
+
+  it('handles function definitions', function() {
+    var a: Function
+    var b: Function
+
+    // Set both variables equal to the same function definition
+    function inverted(): void {}
+    a = b = inverted
+
+    expect(a).not.toEqual(a)
+    expect(a).not.toEqual(b)
+
+    // expect(a).toEqual(inverted) technically should work, but Jest
+    //    doesn't like the fact that these functions serialize to the
+    //    same string; therefore, we have to be a little roundabout
+    //    in our test.
+    // Also, by using strings here, we have to undo the library's
+    //    string reversal functionality
+    expect(invertString('' + a)).toEqual('' + inverted)
   })
 })
