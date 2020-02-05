@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.5
+
+- Previously, this library skipped transformations of functions due to the complexity of "inverting" a function mathematically; now, this library curries the original function forward (SEE THE UPDATED README FOR AN EXPLANATION AS TO WHY)
+- Updated README to reflect changes
+- Refactored the original `evaluators` file into a directory with multiple files
+- Refactored the library's internal definition of "invertObject" vs "handleObject"
+- Minor updates to README
+- Minor comment update to `types.ts` file
+
 ## v0.3.4
 
 - Update packages

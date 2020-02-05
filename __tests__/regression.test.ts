@@ -37,5 +37,15 @@ describe('Regression tests', function() {
     it('handles objects', function() {
       expect({ a: 1, b: 2, c: 3 }).toEqual({ a: 1, b: 2, c: 3 })
     })
+
+    it('handles function definitions', function() {
+      var a: Function
+      var b: Function
+
+      // Set both variables equal to the same function definition
+      a = b = () => {}
+
+      expect(a).toEqual(b)
+    })
   })
 })
