@@ -14,6 +14,7 @@ export type Config = {
 //    So as not to risk unnecessarily breaking someone's environment with a
 //    poorly chosen abstraction--for what's essentially a very minor benefit
 //    overall--chosing to type `expect` as `any` seems good enough.
+// If anyone knows of a better solution, feel free to post it to the Issues page.
 export type Expect = any
 
 export type InvertedObject = SwappedObject | Array<any> | boolean

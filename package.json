@@ -1,6 +1,6 @@
 {
   "name": "jest-invert",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Determine the integrity of your Jest unit tests by inverting the return value of jest.expect()",
   "author": "Denny S. Temple <dev@dentemple.com>",
   "license": "MIT",
@@ -57,7 +57,7 @@
     "jest",
     "test",
     "invert",
-    "TDD",
+    "tdd",
     "typescript"
   ],
   "husky": {

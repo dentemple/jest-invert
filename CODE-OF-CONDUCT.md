@@ -9,6 +9,6 @@
 7. Right Mindfulness: To be diligently aware of what we are doing, and to be mindful of the feelings that appear and disappear within ourselves
 8. Right Concentration: To practice mental discipline, and to reinforce the pursuit of mindfulness, tranquility, and insight
 
-By participating in this project, I pledge to follow the practices listed above, and to continue to support an environment of openness, wisome, and kindness in everything that I do.
+By participating in this project, I pledge to follow the practices listed above, and to continue to support an environment of openness, wisdom, and kindness in everything that I do.
 
 Contributions that violate these principles may be removed.
