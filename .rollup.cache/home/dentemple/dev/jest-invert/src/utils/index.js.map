@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,IAAI,kBAAkB,EAAE,MAAM,sBAAsB,CAAA;AACpE,OAAO,EAAE,OAAO,IAAI,UAAU,EAAE,MAAM,cAAc,CAAA","sourcesContent":["export { default as errorMissingExpect } from './errorMissingExpect'\nexport { default as SwapObject } from './SwapObject'\n"]}

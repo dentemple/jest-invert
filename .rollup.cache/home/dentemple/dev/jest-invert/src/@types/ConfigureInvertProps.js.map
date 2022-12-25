@@ -1,0 +1,1 @@
+{"version":3,"file":"ConfigureInvertProps.js","sourceRoot":"","sources":["ConfigureInvertProps.ts"],"names":[],"mappings":"","sourcesContent":["import type { JestGlobalExpect } from './JestGlobalExpect'\n\nexport type ConfigureInvertProps = {\n  run?: boolean | null\n  expect?: JestGlobalExpect\n}\n\nexport default ConfigureInvertProps\n"]}

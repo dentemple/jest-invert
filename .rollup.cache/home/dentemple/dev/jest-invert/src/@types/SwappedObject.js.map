@@ -1,0 +1,1 @@
+{"version":3,"file":"SwappedObject.js","sourceRoot":"","sources":["SwappedObject.ts"],"names":[],"mappings":"","sourcesContent":["export interface SwappedObject {\n  [key: string]: string\n}\n\nexport default SwappedObject\n"]}

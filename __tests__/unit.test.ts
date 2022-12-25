@@ -1,8 +1,8 @@
 import invert from '../src'
-import { invertString } from '../src/evaluators/conversions'
+import { invertString } from '../src/evaluators'
 
-describe('Unit tests', function() {
-  var expect: any
+describe('Unit tests', function () {
+  let expect: any
   beforeAll(() => {
     expect = invert({})
   })
@@ -46,7 +46,7 @@ describe('Unit tests', function() {
     expect({ a: 1, b: 2 }).toEqual({ '1': 'a', '2': 'b' })
   })
 
-  it('handles function definitions', function() {
+  it('handles function definitions', function () {
     var a: Function
     var b: Function
 
