@@ -1,4 +1,4 @@
-import type { JestGlobalExpect } from './JestGlobalExpect'
+import { JestGlobalExpect } from './JestGlobalExpect'
 
 export interface JestInvert extends JestGlobalExpect {
   (actual: undefined): boolean

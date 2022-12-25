@@ -5,10 +5,11 @@
     "declaration": true,
     "declarationDir": "types",
     "emitDeclarationOnly": true,
-    "importsNotUsedAsValues": "error",
+    // Commenting out for now: the following line is causing issues with the build (rollup-typescript)
+    // "importsNotUsedAsValues": "error",
     "stripInternal": true,
-
     "strict": true,
+    
 
     /* Additional Checks */
     "noUnusedLocals": true,
@@ -20,14 +21,10 @@
     /* Module Resolution Options */
     "module": "ESNext",
     "moduleResolution": "node",
-    /* 
-      As noted by the jest library, this needs to be false so our types 
-      are possible to consume without setting this 
-    */
-    "esModuleInterop": false,
+
+    "esModuleInterop": true,
     "isolatedModules": true,
-    "skipLibCheck": false,
-    "resolveJsonModule": true
+    "skipLibCheck": false
   }, 
   "exclude": [
     "node_modules",

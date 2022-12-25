@@ -13,7 +13,7 @@ export default [
       file: pkg.main,
       format: 'cjs',
       name,
-      exports: 'auto',
+      exports: 'default',
     },
     external: ['jest'],
     plugins: [typescript(), resolve()],

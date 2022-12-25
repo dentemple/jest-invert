@@ -1,11 +1,7 @@
 import evaluators from './evaluators'
 import { errorMissingExpect } from './utils'
 
-import type {
-  ConfigureInvertProps,
-  JestInvert,
-  JestGlobalExpect,
-} from './@types'
+import { ConfigureInvertProps, JestInvert, JestGlobalExpect } from './@types'
 
 declare global {
   namespace NodeJS {
@@ -34,6 +30,15 @@ function configureInvert(props?: ConfigureInvertProps) {
   // Jest's original expect function has additional method calls attached to it;
   //    therefore, we must retain references to them on the new function
   Object.setPrototypeOf(invert, expect)
+
+  if (
+    jestExpect &&
+    // @ts-ignore
+    global.expect
+  ) {
+    // @ts-ignore
+    global.expect = invert
+  }
 
   return invert
 

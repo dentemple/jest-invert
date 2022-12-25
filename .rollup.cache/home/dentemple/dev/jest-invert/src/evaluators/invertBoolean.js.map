@@ -1,1 +1,0 @@
-{"version":3,"file":"invertBoolean.js","sourceRoot":"","sources":["invertBoolean.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,aAAa,GAAG,CAAC,MAAe,EAAW,EAAE,CAAC,CAAC,MAAM,CAAA;AAElE,eAAe,aAAa,CAAA","sourcesContent":["export const invertBoolean = (actual: boolean): boolean => !actual\n\nexport default invertBoolean\n"]}

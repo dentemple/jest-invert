@@ -1,10 +1,10 @@
 # jest-invert
 
-[![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![Build Status](https://travis-ci.com/dentemple/jest-invert.svg?branch=master)](https://travis-ci.com/dentemple/jest-invert) [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)
+[![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)
 
 **A library for breaking a bunch of tests quickly.**
 
-This library does not add[matchers](https://jestjs.io/docs/expect#expectextendmatchers).  What this library does is grab your `expect` argument _before_ it hits the function, inverts the value, _then_ passes it on to `expect` (via currying).
+This library does not add [matchers](https://jestjs.io/docs/expect#expectextendmatchers).  What this library does is grab your `expect` argument _before_ it hits the function, inverts the value, _then_ passes it on to `expect` (via currying).
 
 `expect(2 + 2).toEqual(4)` will fail with the result `Expected: 4, Received: -4`.
 

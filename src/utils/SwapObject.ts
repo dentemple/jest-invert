@@ -1,4 +1,4 @@
-import type { SwappedObject } from '../@types'
+import { SwappedObject } from '../@types'
 
 export const SwapObject = (actual: Object[]): SwappedObject => {
   let swapped: SwappedObject = {}

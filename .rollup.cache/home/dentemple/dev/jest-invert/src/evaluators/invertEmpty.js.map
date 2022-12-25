@@ -1,1 +1,0 @@
-{"version":3,"file":"invertEmpty.js","sourceRoot":"","sources":["invertEmpty.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,WAAW,GAAG,CAAC,MAAwB,EAAQ,EAAE,CAAC,CAAC,MAAM,CAAA;AAEtE,eAAe,WAAW,CAAA","sourcesContent":["export const invertEmpty = (actual: undefined | null): true => !actual\n\nexport default invertEmpty\n"]}
