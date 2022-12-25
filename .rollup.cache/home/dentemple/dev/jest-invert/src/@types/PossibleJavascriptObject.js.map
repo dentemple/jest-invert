@@ -1,1 +1,0 @@
-{"version":3,"file":"PossibleJavascriptObject.js","sourceRoot":"","sources":["PossibleJavascriptObject.ts"],"names":[],"mappings":"","sourcesContent":["export type PossibleJavascriptObject = Object[] | Array<any> | null\n\nexport default PossibleJavascriptObject\n"]}
