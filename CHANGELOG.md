@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.1
+
+- Deployment fixes
+- Removed Travis CI due to compatibility issues
+
 ## v0.4.0
 
 - Update to Rollup's deployment config

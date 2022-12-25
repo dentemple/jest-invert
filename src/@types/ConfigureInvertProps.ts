@@ -1,4 +1,4 @@
-import type { JestGlobalExpect } from './JestGlobalExpect'
+import { JestGlobalExpect } from './JestGlobalExpect'
 
 export type ConfigureInvertProps = {
   run?: boolean | null

@@ -3,7 +3,7 @@ import { invertEmpty } from './invertEmpty'
 
 import { SwapObject } from '../utils'
 
-import type {
+import {
   InvertedObject,
   PossibleJavascriptObject,
   SwappedObject,
