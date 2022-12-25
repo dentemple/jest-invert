@@ -1,1 +1,0 @@
-{"version":3,"file":"InvertedObject.js","sourceRoot":"","sources":["InvertedObject.ts"],"names":[],"mappings":"","sourcesContent":["import type { SwappedObject } from './SwappedObject'\n\nexport type InvertedObject = SwappedObject | Array<any> | boolean\n\nexport default InvertedObject"]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"JestGlobalExpect.js","sourceRoot":"","sources":["JestGlobalExpect.ts"],"names":[],"mappings":"","sourcesContent":["import type { expect as jestGlobalExpect } from '@jest/globals'\n\nexport type JestGlobalExpect = typeof jestGlobalExpect\n\nexport default JestGlobalExpect\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"file":"invertArray.js","sourceRoot":"","sources":["invertArray.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,WAAW,GAAG,CAAC,MAAkB,EAAc,EAAE,CAAC,MAAM,CAAC,OAAO,EAAE,CAAA;AAE/E,eAAe,WAAW,CAAA","sourcesContent":["export const invertArray = (actual: Array<any>): Array<any> => actual.reverse()\n\nexport default invertArray\n"]}
