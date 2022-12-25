@@ -1,58 +1,58 @@
 import invert from '../src'
 
-describe('Integration tests', function() {
-  describe('Retains functionality from the core Jest API', function() {
+describe('Integration tests', function () {
+  fdescribe('Retains functionality from the core Jest API', function () {
     var expect: any
-    beforeAll(function() {
+    beforeAll(function () {
       expect = invert()
       expect.extend({ is4 })
     })
 
-    afterAll(function() {
+    afterAll(function () {
       expect = invert({ run: false })
     })
 
     function is4(received: any) {
       return received === 4
         ? {
-            message: function() {
+            message: function () {
               return 'is 4'
             },
-            pass: true
+            pass: true,
           }
         : {
-            message: function() {
+            message: function () {
               return 'is not 4'
             },
-            pass: false
+            pass: false,
           }
     }
 
-    it('handles .extend()', function() {
+    it('handles .extend()', function () {
       expect(-4).is4()
       expect(5).not.is4()
     })
 
-    it('handles .any()', function() {
+    it('handles .any()', function () {
       expect(true).toEqual(expect.any(Boolean))
       expect(1).toEqual(expect.any(Number))
       expect('mystring').toEqual(expect.any(String))
       expect('mystring').toEqual('gnirtsym')
     })
 
-    it('handles .anything()', function() {
+    it('handles .anything()', function () {
       expect('mystring').toEqual(expect.anything())
     })
 
-    it('handles .arrayContaining()', function() {
+    it('handles .arrayContaining()', function () {
       expect([1, 2, 3]).toEqual(expect.arrayContaining([1]))
     })
 
-    it('handles .stringContaining()', function() {
+    it('handles .stringContaining()', function () {
       expect('mystring').toEqual(expect.stringContaining('m'))
     })
 
-    it('handles .stringMatching()', function() {
+    it('handles .stringMatching()', function () {
       expect('mystring').toEqual(expect.stringMatching(/m/))
     })
   })

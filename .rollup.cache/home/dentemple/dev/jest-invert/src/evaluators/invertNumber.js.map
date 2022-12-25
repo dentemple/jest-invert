@@ -1,0 +1,1 @@
+{"version":3,"file":"invertNumber.js","sourceRoot":"","sources":["invertNumber.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,YAAY,GAAG,CAAC,MAAc,EAAU,EAAE,CAAC,CAAC,MAAM,CAAA;AAE/D,eAAe,YAAY,CAAA","sourcesContent":["export const invertNumber = (actual: number): number => -actual\n\nexport default invertNumber\n"]}

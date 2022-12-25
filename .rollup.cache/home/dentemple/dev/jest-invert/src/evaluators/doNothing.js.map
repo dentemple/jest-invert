@@ -1,0 +1,1 @@
+{"version":3,"file":"doNothing.js","sourceRoot":"","sources":["doNothing.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,SAAS,GAAG,CAAC,MAAW,EAAO,EAAE,CAAC,MAAM,CAAA;AAErD,eAAe,SAAS,CAAA","sourcesContent":["export const doNothing = (actual: any): any => actual\n\nexport default doNothing\n"]}

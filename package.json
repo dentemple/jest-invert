@@ -1,49 +1,9 @@
 {
   "name": "jest-invert",
-  "version": "0.3.5",
-  "description": "Determine the integrity of your Jest unit tests by inverting the return value of jest.expect()",
+  "version": "0.4.0",
+  "description": "Determine the integrity of your Jest unit tests by auto-inverting your arguments to Jest.expect()",
   "author": "Denny S. Temple <dev@dentemple.com>",
   "license": "MIT",
-  "---": "---",
-  "main": "dist/jest-invert.cjs.js",
-  "browser": "dist/jest-invert.umd.js",
-  "unpkg": "dist/jest-invert.umd.min.js",
-  "module": "dist/jest-invert.es.js",
-  "types": "dist/jest-invert.d.ts",
-  "files": [
-    "dist"
-  ],
-  "----": "----",
-  "scripts": {
-    "build": "npm run clean && rollup --c rollup.config.js --compact",
-    "clean": "rimraf .cache && rimraf dist",
-    "test": "jest -i",
-    "test:watch": "jest -i --watch",
-    "update": "ncu --dep dev,prod -u && npm install",
-    "update:check": "ncu --dep dev,prod",
-    "prepublish": "npm run build"
-  },
-  "dependencies": {},
-  "peerDependencies": {
-    "jest": ">=24.0.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.25",
-    "husky": "^3.1.0",
-    "jest": "^24.9.0",
-    "lint-staged": "^9.5.0",
-    "npm-check-updates": "^4.0.1",
-    "prettier": "^1.19.1",
-    "rimraf": "^3.0.0",
-    "rollup": "^1.28.0",
-    "rollup-plugin-analyzer": "^3.2.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^5.1.3",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "ts-jest": "^24.2.0",
-    "tslib": "^1.10.0",
-    "typescript": "^3.7.4"
-  },
   "homepage": "https://github.com/dentemple/jest-invert#readme",
   "repository": {
     "type": "git",
@@ -60,6 +20,56 @@
     "tdd",
     "typescript"
   ],
+  "publishConfig": {
+    "access": "public",
+    "audit-level": "moderate"
+  },
+  "---": "",
+  "main": "dist/jest-invert.cjs.js",
+  "browser": "dist/jest-invert.umd.js",
+  "unpkg": "dist/jest-invert.umd.min.js",
+  "module": "dist/jest-invert.es.js",
+  "types": "dist/jest-invert.d.ts",
+  "files": [
+    "dist"
+  ],
+  "----": "----",
+  "scripts": {
+    "build": "npm run clean && rollup --c rollup.config.js --compact",
+    "clean": "rimraf .cache && rimraf dist",
+    "---": "----",
+    "prepublish": "npm run build",
+    "publish": "npm publish",
+    "----": "----",
+    "test": "jest -i",
+    "test:watch": "jest -i --watch"
+  },
+  "engines": {
+    "node": "^14.15.0 || ^16.10.0 || >=18.0.0"
+  },
+  "peerDependencies": {
+    "jest": ">=29.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.2.1",
+    "@rollup/plugin-typescript": "^10.0.1",
+    "@tsconfig/node14": "^1.0.3",
+    "@tsconfig/node16": "^1.0.3",
+    "@tsconfig/node18": "^1.0.1",
+    "@types/jest": "^29.2.4",
+    "husky": "^8.0.2",
+    "jest": "^29.3.1",
+    "lint-staged": "^13.1.0",
+    "npm-packlist": "^7.0.4",
+    "prettier": "^2.8.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.79.1",
+    "rollup-plugin-analyzer": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "ts-jest": "^29.0.3",
+    "tslib": "^2.4.1",
+    "typescript": "^4.9.4"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

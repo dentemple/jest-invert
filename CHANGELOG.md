@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.0
+
+- Update to Rollup's deployment config
+- Refactoring maintenance across the codebase
+
 ## v0.3.5
 
 - Previously, this library skipped transformations of functions due to the complexity of "inverting" a function mathematically; now, this library curries the original function forward (SEE THE UPDATED README FOR AN EXPLANATION AS TO WHY)

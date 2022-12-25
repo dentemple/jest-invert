@@ -1,14 +1,23 @@
-import {
-  doNothing,
+import invertBoolean from './invertBoolean'
+import invertEmpty from './invertEmpty'
+import invertFunction from './invertFunction'
+import invertNumber from './invertNumber'
+import invertObject from './invertObject'
+import invertString from './invertString'
+import doNothing from './doNothing'
+
+export {
   invertBoolean,
   invertEmpty,
   invertFunction,
   invertNumber,
   invertObject,
-  invertString
-} from './conversions'
+  invertString,
+  doNothing,
+}
 
-const evaluators = {
+// Combined into a map for easier access
+export const evaluators = {
   bigint: invertNumber,
   boolean: invertBoolean,
   function: invertFunction,
@@ -16,7 +25,7 @@ const evaluators = {
   object: invertObject,
   string: invertString,
   symbol: doNothing,
-  undefined: invertEmpty
+  undefined: invertEmpty,
 }
 
 export default evaluators
