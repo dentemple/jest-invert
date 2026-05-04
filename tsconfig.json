@@ -1,35 +1,24 @@
 {
-  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "declaration": true,
-    "declarationDir": "types",
-    "emitDeclarationOnly": true,
-    // Commenting out for now: the following line is causing issues with the build (rollup-typescript)
-    // "importsNotUsedAsValues": "error",
-    "stripInternal": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022"],
     "strict": true,
-    
-
-    /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-
-    /* Module Resolution Options */
-    "module": "ESNext",
-    "moduleResolution": "node",
-
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "skipLibCheck": false
-  }, 
-  "exclude": [
-    "node_modules",
-    "dist",
-    "coverage",
-    "__tests__/**/*.test.ts"
-  ]
+    "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "6.0",
+    "skipLibCheck": false,
+    "types": ["jest", "node"]
+  },
+  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
+  "exclude": ["coverage", "dist", "node_modules"]
 }

@@ -1,57 +1,68 @@
-import evaluators from './evaluators'
+import { invertValue } from './evaluators'
 import { errorMissingExpect } from './utils'
 
-import { ConfigureInvertProps, JestInvert, JestGlobalExpect } from './@types'
+import type { ConfigureInvertProps, JestGlobalExpect } from './types'
 
-declare global {
-  namespace NodeJS {
-    interface Global {
-      expect: JestGlobalExpect
-    }
-  }
+type GlobalWithExpect = typeof globalThis & {
+  expect?: JestGlobalExpect
 }
 
-// Function signatures
-function configureInvert(
-  props?: ConfigureInvertProps
-): JestInvert | JestGlobalExpect | undefined
+const globalWithExpect = globalThis as GlobalWithExpect
 
-// Function implementation
-function configureInvert(props?: ConfigureInvertProps) {
-  const {
-    run = true,
-    // @ts-ignore
-    expect: jestExpect = global.expect,
-  } = props || ({} as ConfigureInvertProps)
+const getGlobalExpect = (): JestGlobalExpect | undefined =>
+  globalWithExpect.expect
 
-  if (!run) return jestExpect
-  if (!jestExpect) throw new Error(errorMissingExpect)
+const setGlobalExpect = (value: JestGlobalExpect): void => {
+  globalWithExpect.expect = value
+}
 
-  // Jest's original expect function has additional method calls attached to it;
-  //    therefore, we must retain references to them on the new function
-  Object.setPrototypeOf(invert, expect)
-
-  if (
-    jestExpect &&
-    // @ts-ignore
-    global.expect
-  ) {
-    // @ts-ignore
-    global.expect = invert
+const bindCallableProperty = <T>(value: T, target: JestGlobalExpect): T => {
+  if (typeof value !== 'function') {
+    return value
   }
 
-  return invert
+  return value.bind(target) as T
+}
 
-  // -------------------------------------------------------------------------------
-  // Placed as a nested function here to utilize jestExpect via closure
-  function invert(actual: any): JestInvert {
-    // A map is used here instead of if statements so as to reduce
-    //    the number of unnecessary code paths being checked.
-    const evaluate: Function = evaluators[typeof actual]
-    const result = evaluate(actual)
+const createInvertedExpect = (baseExpect: JestGlobalExpect): JestGlobalExpect =>
+  new Proxy(baseExpect, {
+    apply(target, thisArg, argumentList) {
+      const [actual, ...rest] = argumentList
 
-    return jestExpect ? jestExpect(result) : result
+      return Reflect.apply(target, thisArg, [invertValue(actual), ...rest])
+    },
+    get(target, property, receiver) {
+      return bindCallableProperty(
+        Reflect.get(target, property, receiver),
+        target,
+      )
+    },
+    set(target, property, value, receiver) {
+      return Reflect.set(target, property, value, receiver)
+    },
+  }) as JestGlobalExpect
+
+function configureInvert(props: ConfigureInvertProps = {}): JestGlobalExpect {
+  const { expect: providedExpect, patchGlobal = false, run = true } = props
+  const jestExpect = providedExpect ?? getGlobalExpect()
+
+  if (!jestExpect) {
+    throw new Error(errorMissingExpect)
   }
+
+  const configuredExpect = run ? createInvertedExpect(jestExpect) : jestExpect
+
+  if (patchGlobal) {
+    setGlobalExpect(configuredExpect)
+  }
+
+  return configuredExpect
 }
 
 export default configureInvert
+export type {
+  ConfigureInvertProps,
+  InvertedValue,
+  JestGlobalExpect,
+  SwappedObject,
+} from './types'

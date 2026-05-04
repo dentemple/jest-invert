@@ -1,3 +1,3 @@
-export const doNothing = (actual: any): any => actual
+export const doNothing = <T>(actual: T): T => actual
 
 export default doNothing

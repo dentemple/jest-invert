@@ -1,3 +1,4 @@
-export const invertArray = (actual: Array<any>): Array<any> => actual.reverse()
+export const invertArray = <T>(actual: readonly T[]): T[] =>
+  [...actual].reverse()
 
 export default invertArray

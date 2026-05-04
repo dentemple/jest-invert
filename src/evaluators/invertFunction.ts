@@ -1,6 +1,9 @@
-export function invertFunction(actual: Function): Function {
-  // Note: The function name is important here; it'll show up in the end user's test results
-  return function inverted(): Function {
+import type { WrappedFunction } from '../types'
+
+export function invertFunction<T extends (...args: unknown[]) => unknown>(
+  actual: T,
+): WrappedFunction<T> {
+  return function inverted() {
     return actual
   }
 }

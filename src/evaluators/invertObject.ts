@@ -1,25 +1,19 @@
 import { invertArray } from './invertArray'
-import { invertEmpty } from './invertEmpty'
 
-import { SwapObject } from '../utils'
+import { isPlainObject, swapObject } from '../utils'
 
-import {
-  InvertedObject,
-  PossibleJavascriptObject,
-  SwappedObject,
-} from '../@types'
+import type { InvertedValue } from '../types'
 
-// Function signatures (overloaded)
-export function invertObject(actual: null): boolean
-export function invertObject(actual: Array<any>): Array<any>
-export function invertObject(actual: Object[]): SwappedObject
+export function invertObject<T extends object>(actual: T): InvertedValue<T> {
+  if (Array.isArray(actual)) {
+    return invertArray(actual) as InvertedValue<T>
+  }
 
-// Function implementation
-export function invertObject(actual: PossibleJavascriptObject): InvertedObject {
-  if (null === actual) return invertEmpty(actual)
-  if (Array.isArray(actual)) return invertArray(actual)
+  if (isPlainObject(actual)) {
+    return swapObject(actual) as InvertedValue<T>
+  }
 
-  return SwapObject(actual)
+  return actual as InvertedValue<T>
 }
 
 export default invertObject

@@ -1,3 +1,3 @@
-export const invertEmpty = (actual: undefined | null): true => !actual
+export const invertEmpty = (): true => true
 
 export default invertEmpty
