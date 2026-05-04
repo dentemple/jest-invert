@@ -1,6 +1,5 @@
 export const errorMissingExpect =
-  "Unable to find Jest's global expect." +
-  "Jest's global expect may also be passed in as an argument to the function." +
-  'Example: `configureInvert({ expect: myCustomExpect })`'
+  'Unable to find a Jest expect function. ' +
+  'Pass one explicitly with `configureInvert({ expect })` or use `patchGlobal: true` inside a Jest runtime.'
 
 export default errorMissingExpect

@@ -1,259 +1,132 @@
 # jest-invert
 
-[![npm](https://img.shields.io/npm/v/jest-invert.svg)](https://www.npmjs.com/package/jest-invert) [![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/jest-invert.svg)](https://www.npmjs.com/package/jest-invert)
+Invert the value passed to Jest's `expect()` so you can prove a test really fails before you trust it.
 
-**A library for breaking a bunch of tests quickly.**
+## Status
 
-This library does not add [matchers](https://jestjs.io/docs/expect#expectextendmatchers).  What this library does is grab your `expect` argument _before_ it hits the function, inverts the value, _then_ passes it on to `expect` (via currying).
+`jest-invert` is now aligned with current Node, Jest, TypeScript, and package-publishing expectations:
 
-`expect(2 + 2).toEqual(4)` will fail with the result `Expected: 4, Received: -4`.
+- Node `20`, `22`, and `24`
+- Jest `^29.7.0 || ^30.0.0`
+- npm `10+` as the primary package manager
+- Dual ESM and CJS package exports
 
-`expect('ABC').toEqual('ABC')` will fail with the result `Expected: "ABC", Received: "CBA"`.
+This modernization is intended for the next **major release** because it updates packaging, supported runtimes, and some runtime behavior.
 
-## But... why?
+## Install
 
-~~Because some men want to watch the world burn.~~
+```bash
+npm install --save-dev jest-invert jest
+```
 
-Because a great unit test is not a good unit test until you see it fail (at least once).  However, manually failing a bunch of tests individually can be tedious.
+## Recommended usage
 
-So this allows you to attack all of the tests within a certain scope all at once.  Do it only for a single `describe` block, or fail literally everything in the code base.  It just depends on where you invoke the library's main function.
+Prefer explicit wrapping in test files or setup files.
 
-~~Also, this can be used to troll your team members to great effect.~~
-
-[Read more about Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
-
-### But why "invert" the values instead of just, y'know, _throwing an error_
-
-Inverting these return values, as opposed to returning random noise, provides a predictable failure mode. A sample test that returns `"eurt"` when it should return `false` can generate a more meaningful message than a generic error message.
-
-## Library Quick Reference
-
-```js
-/* install */
-npm install --save-dev jest-invert
-
-/* require */
-const invert = require('./jest-invert')
-
-/* ES6+ */
+```ts
+import { expect as jestExpect } from '@jest/globals'
 import invert from 'jest-invert'
 
-/* invert ALL tests...  */
-// setupTests.js
-global.expect = invert()
+const expect = invert({ expect: jestExpect })
 
-/* ... or invert only SOME tests */
-// foo.test.ts
-describe('foo', function() {
-  let expect: any
-
-  beforeAll(function() {
-    expect = invert() // ⚠️ Invoke within the `before`/`beforeAll` block
-  })
-
-  afterAll(function() {
-    expect = invert({ run: false }) // ⚠️ Deactivate within the `after`/`afterAll` block
-  })
-
-  it('can add 2 + 2', function() {
-    expect(2 + 2).toEqual(4) // ⚠️ Fails, as expected
-  })
-
-  /* ... */
-})
-
-/* example tests that will be affected by this library */
-
-expect(true).toEqual(true)  // ⚠️ Changes to: false === true
-expect(42).toEqual(42) // ⚠️ Changes to: -42 === 42
-expect('mystring').toEqual('mystring') // ⚠️ Changes to: changes to: "gnirtsym" === "mystring"
-expect([1, 2, 3]).toEqual([1, 2, 3]) // ⚠️ Changes to: changes to: [3, 2, 1] === [1, 2, 3]
-expect({ a: 1, b: 2 }).toEqual({ a: 1, b: 2 }) // ⚠️ Changes to: changes to: {"1":"a", "2":"b"} === { a: 1, b: 2 }
-expect(myFunction).toEqual(myFunction)  // ⚠️ Changes to: [Function inverted] === [Function myFunction]
+expect(2 + 2).toEqual(4) // fails because the received value becomes -4
 ```
 
-## How it works
+### Optional global patching
 
-### 1) Install
+If you still want to patch the global Jest runtime, do it explicitly.
 
-```js
-/* with npm */
-npm install --save-dev jest-invert
-
-/* with yarn */
-yarn add --dev jest-invert
-```
-
-### 2) Invoke
-
-```js
-/* ES5 */
-const invert = require('./jest-invert')
-
-/* ES6+ */
+```ts
+import { expect as jestExpect } from '@jest/globals'
 import invert from 'jest-invert'
 
-global.expect = invert()
-
-/* For Typescript projects, prefer passing in an empty object for the default settings */
-global.expect = invert({})
-
-/* For more explicit activation or control, use the `run` argument */
-
-global.expect = invert({ run: true })
-global.expect = invert({ run: false })
-```
-
-Alternatively, pass in a configuration object for more explicit activation and deactivation.
-
-
-This can be placed in Jest's setup/teardown cycle to affect only a block of tests.
-
-Example:
-
-```js
-describe('my tests', function() {
-  var expect
-  beforeAll(() => {
-    expect = invert({ run: true }) // or just `invert()`
-  })
-
-  afterAll(() => {
-    expect = invert({ run: false })
-  })
-
-  it('my unit test', function() {
-    expect(42).not.toEqual(42)
-  })
-
-  /* ... */
+beforeAll(() => {
+  invert({ expect: jestExpect, patchGlobal: true })
 })
 ```
 
-### 3) Results
-
-The following changes will occur:
-
-- Booleans will flip to the opposite value (`true` to `false`, and vice versa)
-- `undefined` and `null` will evaluate to `true`
-- Numbers will flip to the opposite sign (`1` to `-1`, and vice versa)
-- Strings will be reversed
-- Arrays will be reversed
-- Objects\* will swap keys and values (at a shallow-level only)
-- Functions\*\* will be wrapped in a different, higher order function named "inverted"
-
-_\*Note on objects_: The key/value swap uses `JSON.stringify()` to create the keys.  This is to avoid `[object Object]` from being the end result of every operation.
-
-_\*\*Note on functions_: "Inverting" a function has a precise mathematical definition that falls quite outside the scope of a simple testing libary. Passing a function definition into `expect` also happens to be behavior that is typically _not_ recommended for users of Jest to perform.
-
-Therefore, to err on the side of predictability ,`jest-invert` simply curries the argument through another function named "inverted."
+### CommonJS
 
 ```js
-function invertFunction(actual) {
-  return function inverted() {
-    return actual
-  }
-}
+const { expect: jestExpect } = require('@jest/globals')
+const invert = require('jest-invert').default
+
+const expect = invert({ expect: jestExpect })
 ```
 
-The end result:
+## What gets inverted
 
-Jest's failure message will return `[Function inverted]` as the argument name.
+| Received value       | Inverted value           |
+| -------------------- | ------------------------ |
+| `true`               | `false`                  |
+| `false`              | `true`                   |
+| `undefined` / `null` | `true`                   |
+| `42`                 | `-42`                    |
+| `4n`                 | `-4n`                    |
+| `'abc'`              | `'cba'`                  |
+| `[1, 2, 3]`          | `[3, 2, 1]`              |
+| `{ a: 1, b: 2 }`     | `{ '1': 'a', '2': 'b' }` |
+| `function demo() {}` | `[Function inverted]`    |
 
-This has the added benefit of making it obvious that the original function does or doesn't exist.
+## Object behavior
 
----
+- Arrays are reversed **without mutating the original input**.
+- Only **plain objects** are key/value swapped.
+- Non-plain objects such as `Date`, `Map`, `Set`, class instances, and other custom objects pass through unchanged.
+- Plain-object value collisions still follow normal object overwrite behavior: the last serialized value wins.
 
 ## API
 
-### `require('jest-invert')`
+### `invert(options?)`
 
-> `({ expect, run = true }: config) => any`
+Returns an `expect`-compatible function.
 
-Returns a higher-order function. Accepts a configuration object, and returns the main `invert` function.
-
-Use this returned function to replace `jest.expect`.
-
-An empty object can be passed in as well.
-
-Usage:
-
-```js
-const invert = require('jest-invert')
-
-console.log(global.expect) // function definition from jest
-
-global.expect = invert() // or global.expect = invert({})
-
-console.log(global.expect) // ⚠️ function definition from jest-invert
+```ts
+type ConfigureInvertProps = {
+  expect?: typeof import('@jest/globals').expect
+  patchGlobal?: boolean
+  run?: boolean | null
+}
 ```
 
-### `config.run`
+#### `options.expect`
 
-> `run?: boolean | null`
+Pass the Jest `expect` implementation to wrap. This is the recommended way to use the library in modern Jest code.
 
-Boolean.
+#### `options.patchGlobal`
 
-If set to `true`, activates _jest-invert_'s core functionality.
+When `true`, replace `globalThis.expect` with the wrapped version. This is optional and disabled by default.
 
-If set to `false`, _jest-invert_ will have no effect.
+#### `options.run`
 
-Defaults to `true`.
+When `false`, return the original `expect` unchanged.
 
-Usage:
+## Migration notes
 
-```js
-describe('my tests', function() {
-  var expect
-  beforeAll(() => {
-    expect = invert({ run: true })
-  })
+If you are upgrading from older releases:
 
-  afterAll(() => {
-    expect = invert({ run: false })
-  })
+- Use `import { expect as jestExpect } from '@jest/globals'` for explicit wrapping.
+- Do not rely on implicit global mutation; use `patchGlobal: true` if you need it.
+- Browser and UMD bundles are gone. The package now targets Jest in Node runtimes only.
+- Arrays are now inverted non-destructively.
+- Only plain objects are swapped; non-plain objects now pass through unchanged.
+- Package entrypoints now come from the `exports` map.
 
-  it('my unit test', function() {
-    expect(42).not.toEqual(42)
-  })
+## Local development
 
-  /* ... */
-})
+```bash
+npm ci
+npm run verify
 ```
 
-### `config.expect`
+## Release flow
 
-> `expect?: any`
-
-Function. _For future compatibility only._
-
-If ever the Jest team re-configures their library to avoid polluting the global scope, pass Jest's `expect` function as a callback to the `config.expect` property. _jest-invert_ checks this property before checking the global scope.
-
-May also be useful in the rare case that your codebases uses a custom or monkeypatched `expect` function--assuming that the API is simmilar.
-
-Usage:
-
-```js
-const jest = require('jest')
-const invert = require('jest-invert')
-
-console.log(global.expect) // undefined
-
-const expect = invert({ expect: jest.expect })
-
-console.log(expect) // function definition from jest-invert
-```
-
----
+This repository now uses Changesets for versioning and release PR automation.
 
 ## Changelog
 
-View the recent changes [here](CHANGELOG.md).
-
-## Code of Conduct
-
-Read the Code of Conduct [here](CODE-OF-CONDUCT.md). Contributions that violate these principles may be removed.
+See [CHANGELOG.md](./CHANGELOG.md).
 
 ## License
 
-This library is _Free and Open Source_ under the [MIT License](LICENSE).
+[MIT](./LICENSE)

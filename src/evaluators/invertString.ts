@@ -1,7 +1,4 @@
 export const invertString = (actual: string): string =>
-  actual
-    .split('')
-    .reverse()
-    .join('')
+  [...actual].reverse().join('')
 
 export default invertString

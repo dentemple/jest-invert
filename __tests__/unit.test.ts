@@ -1,68 +1,77 @@
+import { expect as jestExpect } from '@jest/globals'
+
 import invert from '../src'
-import { invertString } from '../src/evaluators'
+import { invertFunction } from '../src/evaluators'
 
-describe('Unit tests', function () {
-  let expect: any
-  beforeAll(() => {
-    expect = invert({})
-  })
-
-  afterAll(() => {
-    expect = invert({ run: false })
-  })
+describe('Unit tests', () => {
+  const createExpect = () => invert({ expect: jestExpect })
 
   it('handles booleans', () => {
-    expect(true).not.toEqual(true)
-    expect(true).toEqual(false)
+    const invertedExpect = createExpect()
+
+    invertedExpect(true).not.toEqual(true)
+    invertedExpect(true).toEqual(false)
   })
 
   it('handles undefined', () => {
-    expect(undefined).not.toEqual(undefined)
-    expect(undefined).toEqual(true)
+    const invertedExpect = createExpect()
+
+    invertedExpect(undefined).not.toEqual(undefined)
+    invertedExpect(undefined).toEqual(true)
   })
 
   it('handles null', () => {
-    expect(null).not.toEqual(null)
-    expect(null).toEqual(true)
+    const invertedExpect = createExpect()
+
+    invertedExpect(null).not.toEqual(null)
+    invertedExpect(null).toEqual(true)
   })
 
-  it('handles numbers', () => {
-    expect(4).not.toEqual(4)
-    expect(4).toEqual(-4)
+  it('handles numbers and bigint values', () => {
+    const invertedExpect = createExpect()
+
+    invertedExpect(4).not.toEqual(4)
+    invertedExpect(4).toEqual(-4)
+    invertedExpect(4n).toEqual(-4n)
   })
 
   it('handles Infinity', () => {
-    expect(Infinity).not.toEqual(Infinity)
-    expect(Infinity).toEqual(-Infinity)
+    const invertedExpect = createExpect()
+
+    invertedExpect(Infinity).not.toEqual(Infinity)
+    invertedExpect(Infinity).toEqual(-Infinity)
   })
 
-  it('handles arrays', () => {
-    expect([1, 2, 3]).not.toEqual([1, 2, 3])
-    expect([1, 2, 3]).toEqual([3, 2, 1])
+  it('returns a reversed array without mutating the input', () => {
+    const invertedExpect = createExpect()
+    const actual = [1, 2, 3]
+
+    invertedExpect(actual).not.toEqual([1, 2, 3])
+    invertedExpect(actual).toEqual([3, 2, 1])
+    expect(actual).toEqual([1, 2, 3])
   })
 
-  it('handles objects', () => {
-    expect({ a: 1, b: 2 }).not.toEqual({ a: 1, b: 2 })
-    expect({ a: 1, b: 2 }).toEqual({ '1': 'a', '2': 'b' })
+  it('swaps keys and values for plain objects', () => {
+    const invertedExpect = createExpect()
+
+    invertedExpect({ a: 1, b: 2 }).not.toEqual({ a: 1, b: 2 })
+    invertedExpect({ a: 1, b: 2 }).toEqual({ '1': 'a', '2': 'b' })
   })
 
-  it('handles function definitions', function () {
-    var a: Function
-    var b: Function
+  it('passes through non-plain objects unchanged', () => {
+    const invertedExpect = createExpect()
+    const actual = new Date('2026-01-01T00:00:00.000Z')
 
-    // Set both variables equal to the same function definition
-    function inverted(): void {}
-    a = b = inverted
+    invertedExpect(actual).toEqual(actual)
+  })
 
-    expect(a).not.toEqual(a)
-    expect(a).not.toEqual(b)
+  it('handles function definitions', () => {
+    function originalFunction(): void {}
 
-    // expect(a).toEqual(inverted) technically should work, but Jest
-    //    doesn't like the fact that these functions serialize to the
-    //    same string; therefore, we have to be a little roundabout
-    //    in our test.
-    // Also, by using strings here, we have to undo the library's
-    //    string reversal functionality
-    expect(invertString('' + a)).toEqual('' + inverted)
+    const wrapped = invertFunction(originalFunction)
+
+    expect(wrapped).not.toEqual(originalFunction)
+    expect(wrapped.name).toEqual('inverted')
+    expect(wrapped()).toBe(originalFunction)
   })
 })

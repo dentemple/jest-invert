@@ -4,3 +4,5 @@ coverage/
 dist/
 node_modules/
 .rollup.cache/**/*
+*.tgz
+*.tsbuildinfo

@@ -1,59 +1,53 @@
+import { expect as jestExpect } from '@jest/globals'
+
 import invert from '../src'
 
-describe('Integration tests', function () {
-  fdescribe('Retains functionality from the core Jest API', function () {
-    var expect: any
-    beforeAll(function () {
-      expect = invert()
-      expect.extend({ is4 })
-    })
+describe('Integration tests', () => {
+  const globalWithExpect = globalThis as typeof globalThis & {
+    expect: typeof jestExpect
+  }
+  const originalGlobalExpect = globalWithExpect.expect
 
-    afterAll(function () {
-      expect = invert({ run: false })
-    })
+  afterEach(() => {
+    globalWithExpect.expect = originalGlobalExpect
+  })
 
-    function is4(received: any) {
-      return received === 4
-        ? {
-            message: function () {
-              return 'is 4'
-            },
-            pass: true,
-          }
-        : {
-            message: function () {
-              return 'is not 4'
-            },
-            pass: false,
-          }
-    }
+  const is4 = (received: unknown) =>
+    received === 4
+      ? {
+          message: () => 'is 4',
+          pass: true,
+        }
+      : {
+          message: () => 'is not 4',
+          pass: false,
+        }
 
-    it('handles .extend()', function () {
-      expect(-4).is4()
-      expect(5).not.is4()
-    })
+  it('retains functionality from the core Jest API', () => {
+    const invertedExpect = invert({ expect: jestExpect })
+    invertedExpect.extend({ is4 })
+    ;(invertedExpect(-4) as unknown as { is4(): void }).is4()
+    ;(invertedExpect(5).not as unknown as { is4(): void }).is4()
+    invertedExpect(true).toEqual(invertedExpect.any(Boolean))
+    invertedExpect(1).toEqual(invertedExpect.any(Number))
+    invertedExpect('mystring').toEqual(invertedExpect.any(String))
+    invertedExpect('mystring').toEqual('gnirtsym')
+    invertedExpect('mystring').toEqual(invertedExpect.anything())
+    invertedExpect([1, 2, 3]).toEqual(invertedExpect.arrayContaining([1]))
+    invertedExpect('mystring').toEqual(invertedExpect.stringContaining('m'))
+    invertedExpect('mystring').toEqual(invertedExpect.stringMatching(/m/))
+  })
 
-    it('handles .any()', function () {
-      expect(true).toEqual(expect.any(Boolean))
-      expect(1).toEqual(expect.any(Number))
-      expect('mystring').toEqual(expect.any(String))
-      expect('mystring').toEqual('gnirtsym')
-    })
+  it('can patch the global expect explicitly', () => {
+    invert({ expect: jestExpect, patchGlobal: true })
 
-    it('handles .anything()', function () {
-      expect('mystring').toEqual(expect.anything())
-    })
+    globalWithExpect.expect(true).toEqual(false)
+  })
 
-    it('handles .arrayContaining()', function () {
-      expect([1, 2, 3]).toEqual(expect.arrayContaining([1]))
-    })
+  it('returns the original expect when disabled', () => {
+    const passthroughExpect = invert({ expect: jestExpect, run: false })
 
-    it('handles .stringContaining()', function () {
-      expect('mystring').toEqual(expect.stringContaining('m'))
-    })
-
-    it('handles .stringMatching()', function () {
-      expect('mystring').toEqual(expect.stringMatching(/m/))
-    })
+    expect(passthroughExpect).toBe(jestExpect)
+    passthroughExpect(true).toEqual(true)
   })
 })
